@@ -4,6 +4,14 @@ const dotenv = require("dotenv");
 dotenv.config({ path: "./config/config.env" });
 const app = express();
 const PORT = process.env.PORT || 5000;
+const morgan = require("morgan");
+
+// Um Logger feito do 0, puramente para fins de estudo
+// const logger = require("./middlewares/logger");
+// app.use(logger);
+
+// Middleware de Logging com Morgan
+process.env.NODE_ENV === "development" ? app.use(morgan("dev")) : null;
 
 // String padrão de rotas
 const defaultRoute = "/api/v1";

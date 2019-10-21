@@ -4,7 +4,10 @@
  */
 
 exports.getBootcamps = (req, res, next) => {
-	res.status(200).json({ success: true, msg: "Showing a list of botocamps." });
+	res.status(200).json({
+		success: true,
+		msg: "Showing a list of bootcamps."
+	});
 };
 
 /* Desc: Obter um único bootcamp
