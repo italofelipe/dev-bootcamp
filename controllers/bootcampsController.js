@@ -1,3 +1,5 @@
+const Bootcamp = require("../models/Bootcamp");
+
 /* Desc: Obter todos os bootcamps
  *  ROTA: GET /api/v1/bootcamps
  *  ACESSO: Public
@@ -26,8 +28,14 @@ exports.getBootcamp = (req, res, next) => {
  *  ACESSO: Privado
  */
 
-exports.createBootcamp = (req, res, next) => {
-	res.status(200).json({ success: true, msg: "Create a botocamps." });
+exports.createBootcamp = async (req, res, next) => {
+	const bootcamp = await Bootcamp.create(req.body);
+	console.log(bootcamp);
+
+	res.status(201).json({
+		success: true,
+		data: bootcamp
+	});
 };
 
 /* Desc: Alterar um bootcamp

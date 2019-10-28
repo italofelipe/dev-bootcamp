@@ -12,6 +12,9 @@ const colors = require("colors");
 connectDB();
 
 const app = express();
+// Body Parser
+app.use(express.json());
+
 // Um Logger feito do 0, puramente para fins de estudo
 // const logger = require("./middlewares/logger");
 // app.use(logger);
