@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const slugify = require("slugify");
+const geocoder = require("../utils/geocoder");
 
 // Nota: Slugs servem pra criar uma URL (rotas) mais amigável ao Front End com base no nome do Bootcamp.
 const BootcampSchema = new mongoose.Schema({
@@ -107,4 +108,24 @@ BootcampSchema.pre("save", function(next) {
 	next();
 });
 
+// Geocode & Criar campo de localização
+BootcampSchema.pre("save", async function(next) {
+	const location = await geocoder.geocode(this.address);
+	this.location = {
+		type: "Point",
+		coordinates: [location[0].longitude, location[0].latitude],
+		formattedAddress: location[0].formattedAddress,
+		street: location[0].streetName,
+		city: location[0].city,
+		state: location[0].stateCode,
+		zipcode: location[0].zipcode,
+		country: location[0].countryCode
+	};
+
+	// No curso foi feito isso, mas eu quis deixar salvar no banco de dados o endereço do usuario,
+	// por isso, nao executei a linha de codigo abaixo
+
+	// this.address = undefined
+	next();
+});
 module.exports = mongoose.model("Bootcamp", BootcampSchema);
