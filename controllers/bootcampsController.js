@@ -5,11 +5,16 @@ const Bootcamp = require("../models/Bootcamp");
  *  ACESSO: Public
  */
 
-exports.getBootcamps = (req, res, next) => {
-	res.status(200).json({
-		success: true,
-		msg: "Showing a list of bootcamps."
-	});
+exports.getBootcamps = async (req, res, next) => {
+	try {
+		const bootcamp = await Bootcamp.find();
+		res.status(200).json({
+			success: true,
+			data: bootcamp
+		});
+	} catch (error) {
+		res.status(404).json({ success: false, error });
+	}
 };
 
 /* Desc: Obter um único bootcamp
@@ -17,10 +22,13 @@ exports.getBootcamps = (req, res, next) => {
  *  ACESSO: Public
  */
 
-exports.getBootcamp = (req, res, next) => {
-	res
-		.status(200)
-		.json({ success: true, msg: `Showing bootcamp ${req.params.id}` });
+exports.getBootcamp = async (req, res, next) => {
+	try {
+		const bootcamp = await Bootcamp.findById(req.params.id);
+		res.status(200).json({ success: true, data: bootcamp });
+	} catch (error) {
+		res.status(404).json({ success: false, error });
+	}
 };
 
 /* Desc: Criar um novo bootcamp
@@ -29,13 +37,17 @@ exports.getBootcamp = (req, res, next) => {
  */
 
 exports.createBootcamp = async (req, res, next) => {
-	const bootcamp = await Bootcamp.create(req.body);
-	console.log(bootcamp);
+	try {
+		const bootcamp = await Bootcamp.create(req.body);
+		console.log(bootcamp);
 
-	res.status(201).json({
-		success: true,
-		data: bootcamp
-	});
+		res.status(201).json({
+			success: true,
+			data: bootcamp
+		});
+	} catch (error) {
+		res.status(400).json({ success: false, error });
+	}
 };
 
 /* Desc: Alterar um bootcamp
