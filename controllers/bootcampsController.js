@@ -7,13 +7,20 @@ const Bootcamp = require("../models/Bootcamp");
 
 exports.getBootcamps = async (req, res, next) => {
 	try {
-		const bootcamp = await Bootcamp.find();
+		const bootcamps = await Bootcamp.find();
 		res.status(200).json({
 			success: true,
-			data: bootcamp
+			results: bootcamps.length,
+			data: bootcamps
 		});
+		if (!bootcamp) {
+			return res.status(404).json({
+				success: false,
+				error: "No bootcamps found with the given ID."
+			});
+		}
 	} catch (error) {
-		res.status(404).json({ success: false, error });
+		res.status(400).json({ success: false, error });
 	}
 };
 
@@ -26,8 +33,14 @@ exports.getBootcamp = async (req, res, next) => {
 	try {
 		const bootcamp = await Bootcamp.findById(req.params.id);
 		res.status(200).json({ success: true, data: bootcamp });
+		if (!bootcamp) {
+			return res.status(404).json({
+				success: false,
+				error: "No bootcamps found with the given ID."
+			});
+		}
 	} catch (error) {
-		res.status(404).json({ success: false, error });
+		res.status(400).json({ success: false, error });
 	}
 };
 
@@ -55,8 +68,22 @@ exports.createBootcamp = async (req, res, next) => {
  *  ACESSO: Privado
  */
 
-exports.updateBootcamp = (req, res, next) => {
-	res.status(200).json({ success: true, msg: "Updating a bootcamp." });
+exports.updateBootcamp = async (req, res, next) => {
+	const updatedBootcamp = await Bootcamp.findByIdAndUpdate(
+		req.params.id,
+		req.body,
+		{
+			new: true,
+			runValidators: true
+		}
+	);
+	if (!updatedBootcamp) {
+		return res.status(400).json({
+			success: false,
+			error: "No bootcamps found with the given ID."
+		});
+	}
+	res.status(200).json({ success: true, data: updatedBootcamp });
 };
 
 /* Desc: Deletar um bootcamp
@@ -64,6 +91,17 @@ exports.updateBootcamp = (req, res, next) => {
  *  ACESSO: Privado
  */
 
-exports.deleteBootcamp = (req, res, next) => {
-	res.status(200).json({ success: true, msg: "Delete a bootcamp." });
+exports.deleteBootcamp = async (req, res, next) => {
+	try {
+		const removeBootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+		if (!removeBootcamp) {
+			return res.status(404).json({
+				success: false,
+				error: "No bootcamp found with the given ID."
+			});
+		}
+		res.status(200).json({ success: true, deleted: true, data: req.body });
+	} catch (error) {
+		res.status(400).json({ success: false, error });
+	}
 };
