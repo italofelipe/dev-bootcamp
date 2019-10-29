@@ -8,9 +8,11 @@ dotenv.config({ path: "./config/config.env" });
 // Logger Personalziado
 const morgan = require("morgan");
 const colors = require("colors");
+// Tratamento de erro personalizado
+const errorhandler = require("./middlewares/error");
 // Conectar ao banco
 connectDB();
-
+// Iniciar o Express
 const app = express();
 // Body Parser
 app.use(express.json());
@@ -32,6 +34,7 @@ const bootcamps = require("./routes/bootcamps");
 
 // Mount Rotas
 app.use(`${defaultRoute}/bootcamps`, bootcamps);
+app.use(errorhandler);
 
 const server = app.listen(PORT, () => {
 	console.log(
