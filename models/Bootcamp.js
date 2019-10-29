@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
+const slugify = require("slugify");
 
+// Nota: Slugs servem pra criar uma URL (rotas) mais amigável ao Front End com base no nome do Bootcamp.
 const BootcampSchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -96,6 +98,13 @@ const BootcampSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	}
+});
+
+// Criar um "slug" de bootcamp a partir de seu nome
+BootcampSchema.pre("save", function(next) {
+	this.slug = slugify(this.name, { lower: true });
+	console.log("Slugify ran", this.name);
+	next();
 });
 
 module.exports = mongoose.model("Bootcamp", BootcampSchema);
