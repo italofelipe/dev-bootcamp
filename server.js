@@ -1,10 +1,11 @@
 // Dependências Globais
 const express = require("express");
-const dotenv = require("dotenv");
+
 const connectDB = require("./config/db");
-const PORT = process.env.PORT || 5000;
+const { port, nodeEnv, geocoderApiKey } = require("./config/config");
+const PORT = port || 5000;
 // Carregar Variaveis de Ambiente
-dotenv.config({ path: "./config/config.env" });
+
 // Logger Personalziado
 const morgan = require("morgan");
 const colors = require("colors");
@@ -22,7 +23,7 @@ app.use(express.json());
 // app.use(logger);
 
 // Middleware de Logging com Morgan
-if (process.env.NODE_ENV === "development") {
+if (nodeEnv === "development") {
 	app.use(morgan("dev"));
 }
 
@@ -37,9 +38,7 @@ app.use(`${defaultRoute}/bootcamps`, bootcamps);
 app.use(errorhandler);
 
 const server = app.listen(PORT, () => {
-	console.log(
-		`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold
-	);
+	console.log(`Server running in ${nodeEnv} mode on port ${port}`.yellow.bold);
 });
 // Handle unhandled promise Rejections
 
