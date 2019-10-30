@@ -2,7 +2,7 @@
 const express = require("express");
 
 const connectDB = require("./config/db");
-const { port, nodeEnv, geocoderApiKey } = require("./config/config");
+const { port, nodeEnv } = require("./config/config");
 const PORT = port || 5000;
 // Carregar Variaveis de Ambiente
 
