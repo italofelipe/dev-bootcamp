@@ -9,12 +9,44 @@ const geocoder = require("../utils/geocoder");
 
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
 	let query;
-	let queryStr = JSON.stringify(req.query);
+	// Req.query é como o Express trata o que é passado como Query String
+	const reqQuery = { ...req.query };
 
+	// Filtrar somente pelos campos que pedimos na requisição
+	const removeFields = ["select", "sort"];
+
+	// Loop pelo removeFields e tirá-los de nossa query
+	removeFields.forEach(param => delete reqQuery[param]);
+	console.log(reqQuery);
+
+	// Criar Query String
+	let queryStr = JSON.stringify(reqQuery);
+
+	// Criando "operadores" para fazermos buscas avançadas via Query String
 	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
 	console.log(queryStr);
 
+	// Encontrando recurso
 	query = Bootcamp.find(JSON.parse(queryStr));
+
+	// Selecionando campos
+	if (req.query.select) {
+		const fields = req.query.select.split(",").join(" ");
+		query = query.select(fields);
+		console.log(fields);
+	}
+	// Classificação
+	// Caso tenha os dados que eu pedi na requisicao, classificálos (na maneira que eu quiser)
+	if (req.query.sort) {
+		const sortBy = req.query.sort.split(",").join(" ");
+		query = query.sort(sortBy);
+	}
+	// Caso existam os dados, mas minha classificação "nao faça sentido", ordená-los por Data (buscando campo createdAt)
+	else {
+		query = query.sort("-createdAt");
+	}
+
+	// Executando a query
 	const bootcamps = await query;
 	res.status(200).json({
 		success: true,
