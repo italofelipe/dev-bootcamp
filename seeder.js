@@ -2,6 +2,7 @@ const fs = require("fs");
 const Mongoose = require("mongoose");
 const colors = require("colors");
 const Bootcamp = require("./models/Bootcamp");
+const Courses = require("./models/Courses");
 // Carregar variaveis de ambiente
 const { mongodbURI } = require("./config/config");
 
@@ -16,11 +17,15 @@ Mongoose.connect(mongodbURI, {
 const bootcamps = JSON.parse(
 	fs.readFileSync(`${__dirname}/_data/bootcamps.json`, "utf-8")
 );
+const courses = JSON.parse(
+	fs.readFileSync(`${__dirname}/_data/courses.json`, "utf-8")
+);
 
 // Importar os dados dos arquivos JSON para o Banco de dados
 const importData = async () => {
 	try {
 		await Bootcamp.create(bootcamps);
+		await Courses.create(courses);
 		console.log("Data imported...".green.inverse);
 		process.exit();
 	} catch (error) {
@@ -32,6 +37,7 @@ const importData = async () => {
 const deleteData = async () => {
 	try {
 		await Bootcamp.deleteMany();
+		await Courses.deleteMany();
 		console.log("Data destroyed...".red.inverse);
 		process.exit();
 	} catch (error) {
