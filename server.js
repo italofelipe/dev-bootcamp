@@ -32,9 +32,11 @@ const defaultRoute = "/api/v1";
 
 // Arquivos de ROTAS
 const bootcamps = require("./routes/bootcamps");
+const courses = require("./routes/courses");
 
 // Mount Rotas
-app.use(`${defaultRoute}/bootcamps`, bootcamps);
+app.use("/api/v1/bootcamps", bootcamps);
+app.use("/api/v1/courses", courses);
 app.use(errorhandler);
 
 const server = app.listen(PORT, () => {

@@ -6,7 +6,7 @@ const configs = {
 	nodeEnv: "development",
 	port: 5000,
 	mongodbURI:
-		"mongodb+srv://italofelipe:3672120Felipe*@cluster0-3kwlg.mongodb.net/test?retryWrites=true&w=majority",
+		"mongodb+srv://italofelipe:3672120Felipe*@cluster0-3kwlg.mongodb.net/devcamper?retryWrites=true&w=majority",
 	geocoderProvider: "mapquest",
 	geocoderApiKey: "xkdjBPfwFv8hqNkz0L7AzlJ9rhPhoeIF"
 };

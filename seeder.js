@@ -2,7 +2,7 @@ const fs = require("fs");
 const Mongoose = require("mongoose");
 const colors = require("colors");
 const Bootcamp = require("./models/Bootcamp");
-const Courses = require("./models/Courses");
+const Course = require("./models/Courses");
 // Carregar variaveis de ambiente
 const { mongodbURI } = require("./config/config");
 
@@ -25,11 +25,11 @@ const courses = JSON.parse(
 const importData = async () => {
 	try {
 		await Bootcamp.create(bootcamps);
-		await Courses.create(courses);
+		await Course.create(courses);
 		console.log("Data imported...".green.inverse);
 		process.exit();
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 	}
 };
 
@@ -37,7 +37,7 @@ const importData = async () => {
 const deleteData = async () => {
 	try {
 		await Bootcamp.deleteMany();
-		await Courses.deleteMany();
+		await Course.deleteMany();
 		console.log("Data destroyed...".red.inverse);
 		process.exit();
 	} catch (error) {
