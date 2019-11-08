@@ -1,7 +1,7 @@
-const Bootcamp = require("../models/Bootcamp");
-const ErrorResponse = require("../utils/errorResponse");
-const asyncHandler = require("../middlewares/async");
-const geocoder = require("../utils/geocoder");
+const Bootcamp = require('../models/Bootcamp');
+const ErrorResponse = require('../utils/errorResponse');
+const asyncHandler = require('../middlewares/async');
+const geocoder = require('../utils/geocoder');
 /* Desc: Obter todos os bootcamps
  *  ROTA: GET /api/v1/bootcamps
  *  ACESSO: Public
@@ -13,37 +13,36 @@ exports.getBootcamps = asyncHandler(async (req, res, next) => {
 	const reqQuery = { ...req.query };
 
 	// Filtrar somente pelos campos que pedimos na requisição
-	const removeFields = ["select", "sort", "page", "limit"];
+	const removeFields = [ 'select', 'sort', 'page', 'limit' ];
 
 	// Loop pelo removeFields e tirá-los de nossa query
-	removeFields.forEach(param => delete reqQuery[param]);
+	removeFields.forEach((param) => delete reqQuery[param]);
 	console.log(reqQuery);
 
 	// Criar Query String
 	let queryStr = JSON.stringify(reqQuery);
 
 	// Criando "operadores" para fazermos buscas avançadas via Query String
-	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`);
+	queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, (match) => `$${match}`);
 	console.log(queryStr);
 
 	// Encontrando recurso
-	query = Bootcamp.find(JSON.parse(queryStr));
+	query = Bootcamp.find(JSON.parse(queryStr)).populate('courses');
 
 	// Selecionando campos
 	if (req.query.select) {
-		const fields = req.query.select.split(",").join(" ");
+		const fields = req.query.select.split(',').join(' ');
 		query = query.select(fields);
 		console.log(fields);
 	}
 	// Classificação
 	// Caso tenha os dados que eu pedi na requisicao, classificálos (na maneira que eu quiser)
 	if (req.query.sort) {
-		const sortBy = req.query.sort.split(",").join(" ");
+		const sortBy = req.query.sort.split(',').join(' ');
 		query = query.sort(sortBy);
-	}
-	// Caso existam os dados, mas minha classificação "nao faça sentido", ordená-los por Data (buscando campo createdAt)
-	else {
-		query = query.sort("-createdAt");
+	} else {
+		// Caso existam os dados, mas minha classificação "nao faça sentido", ordená-los por Data (buscando campo createdAt)
+		query = query.sort('-createdAt');
 	}
 
 	// Paginação
@@ -92,9 +91,7 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
 	const bootcamp = await Bootcamp.findById(req.params.id);
 	res.status(200).json({ success: true, data: bootcamp });
 	if (!bootcamp) {
-		return next(
-			new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
-		);
+		return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));
 	}
 });
 
@@ -119,18 +116,12 @@ exports.createBootcamp = asyncHandler(async (req, res, next) => {
  */
 
 exports.updateBootcamp = asyncHandler(async (req, res, next) => {
-	const updatedBootcamp = await Bootcamp.findByIdAndUpdate(
-		req.params.id,
-		req.body,
-		{
-			new: true,
-			runValidators: true
-		}
-	);
+	const updatedBootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
+		new: true,
+		runValidators: true
+	});
 	if (!updatedBootcamp) {
-		return next(
-			new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
-		);
+		return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));
 	}
 	res.status(200).json({ success: true, data: updatedBootcamp });
 });
@@ -141,13 +132,12 @@ exports.updateBootcamp = asyncHandler(async (req, res, next) => {
  */
 
 exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
-	const removeBootcamp = await Bootcamp.findByIdAndDelete(req.params.id);
+	const removeBootcamp = await Bootcamp.findById(req.params.id);
 	if (!removeBootcamp) {
-		return next(
-			new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404)
-		);
+		return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));
 	}
-	res.json({ success: true, data: {}, message: "Bootcamp Deleted" });
+	removeBootcamp.remove();
+	res.json({ success: true, data: {}, message: 'Bootcamp Deleted' });
 });
 
 /* Desc: Buscar um bootcamp dentro de um raio
@@ -170,7 +160,7 @@ exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
 
 	const radius = distance / 6378;
 	const bootcampsInRadius = await Bootcamp.find({
-		location: { $geoWithin: { $centerSphere: [[lng, lat], radius] } }
+		location: { $geoWithin: { $centerSphere: [ [ lng, lat ], radius ] } }
 	});
 
 	res.status(200).json({

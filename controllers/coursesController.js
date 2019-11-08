@@ -1,6 +1,6 @@
-const Course = require("../models/Courses");
-const ErrorResponse = require("../utils/errorResponse");
-const asyncHandler = require("../middlewares/async");
+const Course = require('../models/Courses');
+const ErrorResponse = require('../utils/errorResponse');
+const asyncHandler = require('../middlewares/async');
 
 /* Desc: Obter todos os Courses
  *  ROTA: GET /api/v1/bootcamps/:bootcampId/courses
@@ -13,7 +13,10 @@ exports.getCourses = asyncHandler(async (req, res, next) => {
 	if (req.params.bootcampId) {
 		query = Course.find({ bootcamp: req.params.bootcampId });
 	} else {
-		query = Course.find();
+		query = Course.find().populate({
+			path: 'bootcamp',
+			select: 'name description'
+		});
 	}
 
 	const courses = await query;
