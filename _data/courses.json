@@ -97,5 +97,26 @@
 		"scholarhipsAvailable": false,
 		"bootcamp": "5d725a1b7b292f5f8ceff788",
 		"user": "5c8a1d5b0190b214360dc032"
+	},
+	{
+		"title": "Senior Vue.js Developer",
+		"description": "Master one of the hottest Front End framework, Vue.js. With a smooth learning curve, Vue.js is an amazing choice for both beginners and advanced Developers.",
+		"weeks": 6,
+		"tuition": 8500,
+		"minimumSkill": "senior",
+		"scholarhipsAvailable": false,
+		"bootcamp": "5d725a1b7b292f5f8ceff788",
+		"user": "5c8a1d5b0190b214360dc032"
+	},
+
+	{
+		"title": "Senior React Developer",
+		"description": "React.js is a very popular library for building user interfaces in a non-opinionated and easy way. It relies on Virtual DOM concept to boost performace, and it it backed by Facebook team,, which surely raises even more its respect.",
+		"weeks": 15,
+		"tuition": 7800,
+		"minimumSkill": "pleno",
+		"scholarhipsAvailable": true,
+		"bootcamp": "5d725a1b7b292f5f8ceff788",
+		"user": "5c8a1d5b0190b214360dc032"
 	}
 ]
