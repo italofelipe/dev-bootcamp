@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const { mongodbURI } = require("./config");
+const mongoose = require('mongoose');
+const { mongodbURI } = require('./config');
 const connectDB = async () => {
 	const con = await mongoose.connect(mongodbURI, {
 		useNewUrlParser: true,
@@ -8,9 +8,7 @@ const connectDB = async () => {
 		useUnifiedTopology: true
 	});
 
-	console.log(
-		`Database up and running at port ${con.connection.host}`.cyan.underline.bold
-	);
+	console.log(`Database up and running at port ${con.connection.host}`.cyan.underline.bold);
 };
 
 module.exports = connectDB;
