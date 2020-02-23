@@ -14,14 +14,14 @@ Mongoose.connect(mongodbURI, {
 });
 
 // Ler os arquivos JSON
-const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/_data/bootcamps.json`, 'utf-8'));
-const courses = JSON.parse(fs.readFileSync(`${__dirname}/_data/courses.json`, 'utf-8'));
 
 // Importar os dados dos arquivos JSON para o Banco de dados
 const importData = async () => {
+	const courses = JSON.parse(fs.readFileSync(`${__dirname}/_data/courses.json`, 'utf-8'));
+	const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/_data/bootcamps.json`, 'utf-8'));
 	try {
 		await Bootcamp.create(bootcamps);
-		await Course.create(courses);
+		// await Course.create(courses);
 		console.log('Data imported...'.green.inverse);
 		process.exit();
 	} catch (error) {

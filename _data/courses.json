@@ -118,5 +118,35 @@
 		"scholarhipsAvailable": true,
 		"bootcamp": "5d725a1b7b292f5f8ceff788",
 		"user": "5c8a1d5b0190b214360dc032"
+	},
+	{
+		"scolarshipAvailable": false,
+		"title": "Senior React Developer",
+		"description": "React.js is a very popular library for building user interfaces in a non-opinionated and easy way. It relies on Virtual DOM concept to boost performace, and it it backed by Facebook team,, which surely raises even more its respect.",
+		"weeks": "15",
+		"tuition": 7800,
+		"minimumSkill": "pleno"
+	},
+	{
+		"title": "Senior Vue Developer",
+		"description": "Vue.js is a modern web framework for build Front End applications. It was created by Evan You in 2014, and it's gaining even more adoption and fans worldwide.",
+		"weeks": "12",
+		"tuition": 6700,
+		"minimumSkill": "junior"
+	},
+	{
+		"scolarshipAvailable": false,
+		"title": "Python Master",
+		"description": "Python is one of the most loved programming languages nowadays. Its simplicity and elegant sintax is very powerful and easy to learn",
+		"tuition": 10200,
+		"weeks": "20",
+		"minimumSkill": "especialista"
+	},
+	{
+		"title": "Node.js Jedi Master",
+		"description": "Node.js is one of the hottest techs to study. It is very powerful and easy to learn, and big companies, like Uber and Netflix are using it.",
+		"tuition": 13000,
+		"weeks": "19",
+		"minimumSkill": "senior"
 	}
 ]
