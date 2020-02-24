@@ -13,6 +13,9 @@ const {
 	bootcampPhotoUpload
 } = require("../controllers/bootcampsController");
 
+const Bootcamp = require("../models/Bootcamp")
+const customResults = require('../middlewares/customResults.js')
+
 // Incluir rotas de outros Recursos
 /*
 	O que estou fazendo aqui: com a linha abaixo, estou basicamente falando que, quando a rota
@@ -24,7 +27,7 @@ const courseRouter = require("./courses");
 Router.use("/:bootcampId/courses", courseRouter);
 
 Router.route("/")
-	.get(getBootcamps)
+	.get(customResults(Bootcamp, 'courses'), getBootcamps)
 	.post(createBootcamp);
 Router.route("/:id")
 	.get(getBootcamp)

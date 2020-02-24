@@ -58,5 +58,33 @@
 		"jobAssistance": true,
 		"jobGuarantee": true,
 		"acceptGi": true
+	},
+	{
+		"name": "Vue Bootcamp",
+		"description": "Bootcamp para te deixar Modafoca em Vue",
+		"website": "https://getvue.io",
+		"phone": "(61) 98877-4321",
+		"email": "vue@bootcamp.com",
+		"address": "Avenida Parque Aguas Claras, Residencial Plaza das Aguas, Bloco B Apto 405",
+		"coordinates": "71993360",
+		"careers": [ "Vue", "Front End", "UI" ],
+		"housing": true,
+		"jobAssistance": true,
+		"jobGuarantee": false,
+		"acceptGi": true
+	},
+	{
+		"name": "React Bootcamp",
+		"description": "Bootcamp para te deixar Modafoca em React",
+		"website": "https://getreact.io",
+		"phone": "(61) 98877-4321",
+		"email": "react@bootcamp.com",
+		"address": "Avenida Parque Aguas Claras, Residencial Plaza das Aguas, Bloco B Apto 405",
+		"coordinates": "71993360",
+		"careers": [ "React", "Front End", "UI" ],
+		"housing": true,
+		"jobAssistance": true,
+		"jobGuarantee": false,
+		"acceptGi": true
 	}
 ]
