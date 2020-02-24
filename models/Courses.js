@@ -41,7 +41,6 @@ const CourseSchema = new mongoose.Schema({
 
 // Static Method para pegar o custo medio do curso
 CourseSchema.statics.getAverageCost = async function(bootcampId) {
-	console.log('Calculando o custo medio....'.blue);
 	const obj = await this.aggregate([
 		{
 			$match: { bootcamp: bootcampId }

@@ -1,3 +1,4 @@
+const path = require('path');
 const Bootcamp = require('../models/Bootcamp');
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middlewares/async');
@@ -167,5 +168,44 @@ exports.getBootcampsInRadius = asyncHandler(async (req, res, next) => {
 		success: true,
 		results: bootcampsInRadius.length,
 		data: bootcampsInRadius
+	});
+});
+
+/* Desc: Subir uma imagem
+ *  ROTA: PUT /api/v1/bootcamps/:id/photo
+ *  ACESSO: Publico
+ */
+
+exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
+	const bootcamp = await Bootcamp.findById(req.params.id);
+
+	if (!bootcamp) {
+		return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));
+	}
+
+	if (!req.files) {
+		return next(new ErrorResponse(`Please upload a photo file`, 400));
+	}
+	const file = req.files.file;
+	// Validar se o elemento que foi subido e de fato uma foto
+	if (!file.mimetype.startsWith('image')) {
+		return next(new ErrorResponse(`Invalid file. Please, upload a photo`, 400));
+	}
+	if (file.size > process.env.MAX_FILE_UPLOAD) {
+		return next(new ErrorResponse(`Please, upload a photo less than ${process.env.MAX_FILE_UPLOAD}`, 400));
+	}
+
+	// Criar nomes de arquivos customizados (para evitar que arquivos com msm nome se sobrescrevam no banco)
+	file.name = `photo_${bootcamp.id}${path.parse(file.name).ext}`;
+	file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
+		if (err) {
+			console.log(err);
+			return next(new ErrorResponse(`Problem with file upload`, 400));
+		}
+		await Bootcamp.findByIdAndUpdate(req.params.id, { photo: file.name });
+		res.status(200).json({
+			success: true,
+			data: file.name
+		});
 	});
 });

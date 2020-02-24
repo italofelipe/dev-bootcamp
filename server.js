@@ -1,6 +1,9 @@
 // Dependências Globais
 const express = require('express');
+const path = require('path');
+require('dotenv').config({ path: './config/config.env' });
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 const connectDB = require('./config/db');
 const { port, nodeEnv } = require('./config/config');
 const PORT = port || 5000;
@@ -28,8 +31,12 @@ if (nodeEnv === 'development') {
 	app.use(morgan('dev'));
 }
 
-// String padrão de rotas
-const defaultRoute = '/api/v1';
+// File Upload
+app.use(fileUpload());
+
+// Criar uma pasta estatica para armazenar as imagens
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Arquivos de ROTAS
 const bootcamps = require('./routes/bootcamps');
