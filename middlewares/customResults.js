@@ -43,7 +43,7 @@ const customResults = (model, populate) => async (req, res, next) => {
 
 	// Aqui, estou fazendo o calculo de quantos itens virão por pagina
 	const page = parseInt(req.query.page, 10) || 1; // 1 Significa que quero uma página por vez
-	const limit = parseInt(req.query.limit, 10) || 2; // 100 Significa que quero que busque até 100 registros
+	const limit = parseInt(req.query.limit, 10) || 25; // 100 Significa que quero que busque até 100 registros
 	const startIndex = (page - 1) * limit;
 	const endIndex = page * limit;
 	const total = await model.countDocuments();
@@ -63,20 +63,21 @@ const customResults = (model, populate) => async (req, res, next) => {
 			page: page + 1,
 			limit
 		};
-		res.customResults = {
-			success: true,
-			count: results.length,
-			pagination,
-			data: results
-		};
-		next();
 	}
+
 	if (startIndex > 0) {
 		pagination.prev = {
 			page: page - 1,
 			limit
 		};
 	}
+	res.customResults = {
+		success: true,
+		count: results.length,
+		pagination,
+		data: results
+	};
+	next();
 };
 
 module.exports = customResults;
