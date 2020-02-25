@@ -41,10 +41,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Arquivos de ROTAS
 const bootcamps = require('./routes/bootcamps');
 const courses = require('./routes/courses');
+const auth = require('./routes/auth');
 
 // Mount Rotas
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
+app.use('/api/v1/auth', auth);
 app.use(errorhandler);
 
 const server = app.listen(PORT, () => {
