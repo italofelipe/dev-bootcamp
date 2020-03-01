@@ -45,4 +45,15 @@ UserSchema.methods.getSignedJwtToken = function() {
 	});
 };
 
+// Verificar se a senha inserida combina com a senha criptografada no banco
+UserSchema.methods.matchPassword = async function(enteredPassword) {
+	/* Esse metodo do bcrypt recebe 2 params: o primeiro e o que queremos 
+		comprar, e o segundo e com o que queremos comparar, logo, com a senha no DB
+	*/
+	return await bcrypt.compare(enteredPassword, this.password);
+	/* this.password aponta para o password
+		passado no middleware em auth.js
+	*/
+};
+
 module.exports = mongoose.model('User', UserSchema);
