@@ -4,6 +4,7 @@ const path = require('path');
 require('dotenv').config({ path: './config/config.env' });
 const cors = require('cors');
 const fileUpload = require('express-fileupload');
+const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
 const { port, nodeEnv } = require('./config/config');
 const PORT = port || 5000;
@@ -20,7 +21,10 @@ connectDB();
 const app = express();
 // Body Parser
 app.use(express.json());
+// Cookie Parser
+app.use(cookieParser());
 app.use(cors());
+
 
 // Um Logger feito do 0, puramente para fins de estudo
 // const logger = require("./middlewares/logger");
