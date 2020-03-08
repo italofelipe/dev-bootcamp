@@ -1,5 +1,6 @@
 const express = require('express');
 const { getCourses, getCourse, addCourse, updateCourse, deleteCourse } = require('../controllers/coursesController');
+const { protect, authorize } = require('../middlewares/auth');
 
 const Course = require('../models/Courses');
 const customResults = require('../middlewares/customResults');
@@ -16,6 +17,10 @@ router
 		}),
 		getCourses
 	)
-	.post(addCourse);
-router.route('/:id').get(getCourse).put(updateCourse).delete(deleteCourse);
+	.post(protect, authorize('publisher', 'admin'), addCourse);
+router
+	.route('/:id')
+	.get(getCourse)
+	.put(protect, authorize('publisher', 'admin'), updateCourse)
+	.delete(protect, authorize('publisher', 'admin'), deleteCourse);
 module.exports = router;

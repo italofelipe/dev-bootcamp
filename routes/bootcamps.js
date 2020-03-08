@@ -1,6 +1,7 @@
 // Dependencias Globais
 const express = require("express");
 const Router = express.Router();
+const { protect, authorize } = require('../middlewares/auth')
 
 // Controllers
 const {
@@ -28,13 +29,13 @@ Router.use("/:bootcampId/courses", courseRouter);
 
 Router.route("/")
 	.get(customResults(Bootcamp, 'courses'), getBootcamps)
-	.post(createBootcamp);
+	.post(protect, authorize('publisher', 'admin'), createBootcamp);
 Router.route("/:id")
 	.get(getBootcamp)
-	.put(updateBootcamp)
-	.delete(deleteBootcamp);
+	.put(protect, authorize('publisher', 'admin'), updateBootcamp)
+	.delete(protect,authorize('publisher', 'admin'), deleteBootcamp);
 module.exports = Router;
 
 Router.route("/radius/:zipcode/:distance").get(getBootcampsInRadius);
 
-Router.route("/:id/photo").put(bootcampPhotoUpload)
+Router.route("/:id/photo").put(protect, authorize('publisher', 'admin'), bootcampPhotoUpload)

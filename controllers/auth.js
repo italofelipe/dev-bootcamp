@@ -60,9 +60,9 @@ const sendTokenResponse = (user, statusCode, res) => {
 		httpOnly: true
 	};
 
-	if (process.env.NODE_ENV === production) {
+	/* if (process.env.NODE_ENV === production) {
 		options.secure = true;
-	}
+	} */
 	/* cookie recebe 3 params: 
 		1 - chave como chamaremos o cookie,
 		2 - valor: O que a nossa chave recebera
@@ -73,3 +73,15 @@ const sendTokenResponse = (user, statusCode, res) => {
 		token
 	});
 };
+
+/* Desc: Pegar o usuario logado na aplicacao
+ *  ROTA: POST /api/v1/auth/me
+ *  ACESSO: Private
+ */
+exports.getMe = asyncHandler(async (req, res, next) => {
+	const user = await User.findById(req.user.id)
+	res.status(200).json({
+		success: true,
+		data: user
+	})
+})
