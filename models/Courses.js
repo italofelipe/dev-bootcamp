@@ -33,6 +33,13 @@ const CourseSchema = new mongoose.Schema({
 		ref: 'Bootcamp',
 		required: true
 	},
+	// Relacionamento entre Esse Schema e o Schema de User
+
+	user: {
+		type: mongoose.Schema.ObjectId,
+		ref: 'User',
+		required: true
+	},
 	createdAt: {
 		type: Date,
 		default: Date.now()
