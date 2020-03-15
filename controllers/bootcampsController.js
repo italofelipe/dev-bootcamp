@@ -9,8 +9,6 @@ const geocoder = require('../utils/geocoder');
  */
 
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-	
-
 	res.status(200).json(res.customResults);
 });
 
@@ -33,8 +31,18 @@ exports.getBootcamp = asyncHandler(async (req, res, next) => {
  */
 
 exports.createBootcamp = asyncHandler(async (req, res, next) => {
+	// Adicionar usuario ao req.body
+	req.body.user = req.user.id;
+
+	// Verificar o bootcamp publicado
+	const publishedBootcamp = await Bootcamp.findOne({ user: req.user.id });
+
+	// Se o usuario nao e um admin, ele so pode adicionar um bootcamp
+	if (publishedBootcamp && req.user.role !== 'admin') {
+		return next(new ErrorResponse(`The user with ID ${req.user.id} has already published a bootcamp.`, 400));
+	}
+
 	const bootcamp = await Bootcamp.create(req.body);
-	console.log(bootcamp);
 
 	res.status(201).json({
 		success: true,
@@ -48,13 +56,20 @@ exports.createBootcamp = asyncHandler(async (req, res, next) => {
  */
 
 exports.updateBootcamp = asyncHandler(async (req, res, next) => {
-	const updatedBootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
-		new: true,
-		runValidators: true
-	});
+	let updatedBootcamp = await Bootcamp.findById(req.params.id);
 	if (!updatedBootcamp) {
 		return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));
 	}
+
+	// Certificar de que o usuario realizando a operacao e de fato o dono do bootcamp ou um admin
+
+	if (updatedBootcamp.user.toString() !== req.user.id && req.user.role !== 'admin') {
+		return next(new ErrorResponse(`User ${req.params.id} is not authorized to update this bootcamp`, 401));
+	}
+	updatedBootcamp = await Bootcamp.findByIdAndUpdate(req.params.id, req.body, {
+		new: true,
+		runValidators: true
+	});
 	res.status(200).json({ success: true, data: updatedBootcamp });
 });
 
@@ -68,6 +83,11 @@ exports.deleteBootcamp = asyncHandler(async (req, res, next) => {
 	if (!removeBootcamp) {
 		return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));
 	}
+
+	if (removeBootcamp.user.toString() !== req.user.id && req.user.role !== 'admin') {
+		return next(new ErrorResponse(`User ${req.params.id} is not authorized to delete this bootcamp`, 401));
+	}
+
 	removeBootcamp.remove();
 	res.json({ success: true, data: {}, message: 'Bootcamp Deleted' });
 });
@@ -112,6 +132,10 @@ exports.bootcampPhotoUpload = asyncHandler(async (req, res, next) => {
 
 	if (!bootcamp) {
 		return next(new ErrorResponse(`Bootcamp not found with id of ${req.params.id}`, 404));
+	}
+
+	if (bootcamp.user.toString() !== req.user.id && req.user.role !== 'admin') {
+		return next(new ErrorResponse(`User ${req.params.id} is not authorized to update this bootcamp`, 401));
 	}
 
 	if (!req.files) {
