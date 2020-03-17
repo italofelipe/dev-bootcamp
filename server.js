@@ -47,11 +47,16 @@ const bootcamps = require('./routes/bootcamps');
 const courses = require('./routes/courses');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
+// CRUD de USERS apenas pros Admins
+const usersAuth = require('./routes/usersAuth');
 
 // Mount Rotas
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
 app.use('/api/v1/auth', auth);
+// CRUD de USERS apenas pros Admins
+app.use('/api/v1/auth/users', usersAuth);
+// Rotas de Users para pessoas comuns (ex: pessoa que quer ver cursos de um instrutor)
 app.use('/api/v1/users', users);
 app.use(errorhandler);
 
