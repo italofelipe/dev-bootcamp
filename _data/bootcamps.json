@@ -1,7 +1,7 @@
 [
 	{
 		"_id": "5d713995b721c3bb38c1f5d0",
-		"user": "5d7a514b5d2c12c7449be045",
+		"user": "5e80b85275bf275ff0216c29",
 		"name": "Devworks Bootcamp",
 		"description": "Devworks is a full stack JavaScript Bootcamp located in the heart of Boston that focuses on the technologies you need to get a high paying job as a web developer",
 		"website": "https://devworks.com",
@@ -11,12 +11,11 @@
 		"careers": [ "Web Development", "UI/UX", "Business" ],
 		"housing": true,
 		"jobAssistance": true,
-		"jobGuarantee": false,
-		"acceptGi": true
+		"jobGuarantee": false
 	},
 	{
 		"_id": "5d713a66ec8f2b88b8f830b8",
-		"user": "5d7a514b5d2c12c7449be046",
+		"user": "5e80b85275bf275ff0216c29",
 		"name": "ModernTech Bootcamp",
 		"description": "ModernTech has one goal, and that is to make you a rockstar developer and/or designer with a six figure salary. We teach both development and UI/UX",
 		"website": "https://moderntech.com",
@@ -26,12 +25,11 @@
 		"careers": [ "Web Development", "UI/UX", "Mobile Development" ],
 		"housing": false,
 		"jobAssistance": true,
-		"jobGuarantee": false,
-		"acceptGi": true
+		"jobGuarantee": false
 	},
 	{
 		"_id": "5d725a037b292f5f8ceff787",
-		"user": "5c8a1d5b0190b214360dc031",
+		"user": "5e80b85275bf275ff0216c29",
 		"name": "Codemasters",
 		"description": "Is coding your passion? Codemasters will give you the skills and the tools to become the best developer possible. We specialize in full stack web development and data science",
 		"website": "https://codemasters.com",
@@ -41,12 +39,11 @@
 		"careers": [ "Web Development", "Data Science", "Business" ],
 		"housing": false,
 		"jobAssistance": false,
-		"jobGuarantee": false,
-		"acceptGi": false
+		"jobGuarantee": false
 	},
 	{
 		"_id": "5d725a1b7b292f5f8ceff788",
-		"user": "5c8a1d5b0190b214360dc032",
+		"user": "5e80b85275bf275ff0216c29",
 		"name": "Devcentral Bootcamp",
 		"description": "Is coding your passion? Codemasters will give you the skills and the tools to become the best developer possible. We specialize in front end and full stack web development",
 		"website": "https://devcentral.com",
@@ -56,10 +53,10 @@
 		"careers": [ "Mobile Development", "Web Development", "Data Science", "Business" ],
 		"housing": false,
 		"jobAssistance": true,
-		"jobGuarantee": true,
-		"acceptGi": true
+		"jobGuarantee": true
 	},
 	{
+		"user": "5e80b85275bf275ff0216c29",
 		"name": "Vue Bootcamp",
 		"description": "Bootcamp para te deixar Modafoca em Vue",
 		"website": "https://getvue.io",
@@ -70,10 +67,10 @@
 		"careers": [ "Vue", "Front End", "UI" ],
 		"housing": true,
 		"jobAssistance": true,
-		"jobGuarantee": false,
-		"acceptGi": true
+		"jobGuarantee": false
 	},
 	{
+		"user": "5e80b85275bf275ff0216c29",
 		"name": "React Bootcamp",
 		"description": "Bootcamp para te deixar Modafoca em React",
 		"website": "https://getreact.io",
@@ -84,7 +81,6 @@
 		"careers": [ "React", "Front End", "UI" ],
 		"housing": true,
 		"jobAssistance": true,
-		"jobGuarantee": false,
-		"acceptGi": true
+		"jobGuarantee": false
 	}
 ]

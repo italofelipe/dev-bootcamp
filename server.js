@@ -45,6 +45,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Arquivos de ROTAS
 const bootcamps = require('./routes/bootcamps');
 const courses = require('./routes/courses');
+const reviews = require('./routes/reviews');
 const auth = require('./routes/auth');
 const users = require('./routes/users');
 // CRUD de USERS apenas pros Admins
@@ -53,6 +54,7 @@ const usersAuth = require('./routes/usersAuth');
 // Mount Rotas
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
+app.use('/api/v1/reviews', reviews);
 app.use('/api/v1/auth', auth);
 // CRUD de USERS apenas pros Admins
 app.use('/api/v1/auth/users', usersAuth);
@@ -61,7 +63,7 @@ app.use('/api/v1/users', users);
 app.use(errorhandler);
 
 const server = app.listen(PORT, () => {
-	console.log(`Server running in ${nodeEnv} mode on port ${port}`.yellow.bold);
+	console.log(`Server running in ${nodeEnv} mode on port ${port}. MONGO: ${process.env.MONGO_URI}`.yellow.bold);
 });
 // Handle unhandled promise Rejections
 

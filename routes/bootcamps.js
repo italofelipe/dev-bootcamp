@@ -25,7 +25,9 @@ const customResults = require('../middlewares/customResults.js')
 
 */
 const courseRouter = require("./courses");
-Router.use("/:bootcampId/courses", courseRouter);
+const reviewsRouter = require("./reviews");
+Router.use("/:bootcampId/courses", courseRouter); 
+Router.use("/:bootcampId/reviews", reviewsRouter);
 
 Router.route("/")
 	.get(customResults(Bootcamp, 'courses'), getBootcamps)
