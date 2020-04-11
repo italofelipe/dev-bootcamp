@@ -3,6 +3,11 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config({ path: './config/config.env' });
 const cors = require('cors');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
+const rateLimit = require('express-rate-limit');
+const hpp = require('hpp');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./config/db');
@@ -23,8 +28,9 @@ const app = express();
 app.use(express.json());
 // Cookie Parser
 app.use(cookieParser());
-app.use(cors());
 
+// Cors para se conectar ao Front End
+app.use(cors());
 
 // Um Logger feito do 0, puramente para fins de estudo
 // const logger = require("./middlewares/logger");
@@ -37,6 +43,25 @@ if (nodeEnv === 'development') {
 
 // File Upload
 app.use(fileUpload());
+
+// Middleware do Mongo-Sanitize para evitar NoSQL Injections
+app.use(mongoSanitize());
+
+// Criando headers de seguranca
+app.use(helmet());
+
+// Previnindo ataques Cross Site Scripting (XSS)
+app.use(xss());
+
+// Limitar requests a nossa API
+const limiter = rateLimit({
+	windowMs: 10 * 60 * 1000, // 10 minutos
+	max: 5
+});
+app.use(limiter);
+
+// Previnindo poluicao de parametros http
+app.use(hpp());
 
 // Criar uma pasta estatica para armazenar as imagens
 
@@ -63,7 +88,7 @@ app.use('/api/v1/users', users);
 app.use(errorhandler);
 
 const server = app.listen(PORT, () => {
-	console.log(`Server running in ${nodeEnv} mode on port ${port}. MONGO: ${process.env.MONGO_URI}`.yellow.bold);
+	console.log(`Server running in ${nodeEnv} mode on port ${port}.`.yellow.bold);
 });
 // Handle unhandled promise Rejections
 

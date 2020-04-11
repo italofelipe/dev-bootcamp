@@ -1,4 +1,4 @@
-const ErrorResponse = require("../utils/errorResponse");
+const ErrorResponse = require('../utils/errorResponse');
 const errorHandler = (err, req, res, next) => {
 	let error = { ...err };
 	error.message = err.message;
@@ -9,13 +9,13 @@ const errorHandler = (err, req, res, next) => {
 	console.log(err.name.red.bold.underline);
 
 	// Tratamento para "Not Found"
-	if (err.name === "CastError") {
-		const notFoundmessage = `Resource not found with id of ${err.value}`;
+	if (err.name === 'CastError') {
+		const notFoundmessage = `Resource not found`;
 		error = new ErrorResponse(notFoundmessage, 404);
 	}
 	// Tratamento para erros de validação
-	if (err.name === "ValidationError") {
-		const validateMessage = Object.values(err.errors).map(val => val.message);
+	if (err.name === 'ValidationError') {
+		const validateMessage = Object.values(err.errors).map((val) => val.message);
 		error = new ErrorResponse(validateMessage, 400);
 	}
 	// Tratamento para duplicatas de registros. 11000 é o codigo de erro que o Mongoose retorna
@@ -25,7 +25,7 @@ const errorHandler = (err, req, res, next) => {
 	}
 	res.status(error.statusCode || 500).json({
 		success: false,
-		error: error.message || "Server Error. Something went wrong."
+		error: error.message || 'Server Error. Something went wrong.'
 	});
 };
 

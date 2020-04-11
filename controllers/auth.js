@@ -64,6 +64,21 @@ exports.getMe = asyncHandler(async (req, res, next) => {
 	});
 });
 
+/* Desc: Fazer Logoff de usuarios / limpar cookies
+ *  ROTA: GET /api/v1/auth/logout
+ *  ACESSO: Private
+ */
+exports.logout = asyncHandler(async (req, res, next) => {
+	res.cookie('token', 'none', {
+		expires: new Date(Date.now() + 10 * 1000),
+		httpOnly: true
+	});
+	res.status(200).json({
+		success: true,
+		data: {}
+	});
+});
+
 /* Desc: Alterar dados do usuario 
  *  ROTA: PUT /api/v1/auth/updatedetails
  *  ACESSO: Private
@@ -91,7 +106,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
 	const user = await User.findById(req.user.id).select('+password');
 
 	// Verificar a senha atual
-	if (!(await user.matchPassword(req.body.currentPassword))) {
+	if (!await user.matchPassword(req.body.currentPassword)) {
 		return next(new ErrorResponse('Password is incorrect', 401));
 	}
 
